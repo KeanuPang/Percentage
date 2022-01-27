@@ -259,3 +259,34 @@ extension Percentage {
 		lhs = lhs / rhs
 	}
 }
+
+extension Percentage {
+    /**
+    Clamps the percentage to 0...100.
+
+    ```
+    101% => 100%
+    ```
+    */
+    var clampedZeroToHundred: Percentage {
+        if self < 0 { return 0 }
+        if self > 100 { return 100 }
+
+        return self
+    }
+}
+
+extension Percentage {
+    /**
+    Returns the percentage within the given value of percentage.
+
+    ```
+    Percent.from(100, of: 200)
+    //=> 50%
+    ```
+    */
+    public static func from(_ value: Double, of: Double) -> Self {
+        let fraction = Double(value) / Double(of)
+        return Percentage(fraction: fraction >= 0.01 ? fraction : 0)
+    }
+}

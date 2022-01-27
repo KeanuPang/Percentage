@@ -135,4 +135,20 @@ final class PercentageTests: XCTestCase {
 		let random = Percentage.random(in: range)
 		XCTAssertTrue(range.contains(random))
 	}
+    
+    func testClampedPercentage() {
+        XCTAssertEqual(Percentage(-1).clampedZeroToHundred, 0%)
+        XCTAssertEqual(Percentage(rawValue: -10).clampedZeroToHundred, 0%)
+        XCTAssertEqual(0%.clampedZeroToHundred, 0%)
+        XCTAssertEqual(100%.clampedZeroToHundred, 100%)
+        XCTAssertEqual(101%.clampedZeroToHundred, 100%)
+        XCTAssertEqual(Percentage(rawValue: 150).clampedZeroToHundred, 100%)
+    }
+    
+    func testFrom() {
+        XCTAssertEqual(Percentage.from(100, of: 200), 50%)
+        XCTAssertEqual(Percentage.from(1, of: 100), 1%)
+        XCTAssertEqual(Percentage.from(0.1, of: 100), 0%)
+        XCTAssertEqual(Percentage.from(100, of: 1).clampedZeroToHundred, 100%)
+    }
 }
